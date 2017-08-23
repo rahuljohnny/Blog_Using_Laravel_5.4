@@ -16,10 +16,15 @@
 
 
                   <div class="form-group">
-                    <label for="body">Body</label>
+                    <label for="body">Body:</label>
                     <textarea id="body" name="body" class="form-control"></textarea>
                   </div>
 
+
+
+                <div class="form-group">
+                    <h1>{{auth()->id()}}</h1>
+                </div>
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Publish</button>

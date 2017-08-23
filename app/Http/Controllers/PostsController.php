@@ -8,8 +8,16 @@ use DB;
 
 use App\Post;
 
+use Carbon\Carbon;
+
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index','show']);
+        //If the guests is not logged in,only the index and show function will work
+    }
+
 
     public function create()
     {
@@ -18,7 +26,27 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = Post::latest()->get();
+
+        $posts = Post::latest()//Will show the latest posts first
+
+        ->filter(request(['month','year']))
+
+        ->get();
+        /* moved to Post
+        if($month = request('month'))
+        {
+            $posts->whereMonth('created_at',Carbon::parse($month)->month);
+        }
+
+        if($year = request('year'))
+        {
+            $posts->whereYear('created_at',$year);
+        }
+        */
+        //$posts = $posts->get();
+
+        //Temporary
+        //$archives = Post::archives();
 
     	return view('posts.index',compact('posts'));
     }
@@ -27,6 +55,9 @@ class PostsController extends Controller
 
     public function show(Post $post)
     {
+
+        /* Other approaches
+
         //$posts = DB::table('posts')->get();
         //$Posts = Post::all();
 
@@ -34,6 +65,8 @@ class PostsController extends Controller
 
 
         //return view('posts.show')->with('posts',$posts);
+
+        */
 
 
 
@@ -54,20 +87,34 @@ class PostsController extends Controller
 
         $this->validate(request(),[ //It validates if title and body is set properly
             'title' => 'required',
-            'body' => 'required'
-            ]
+            'body' => 'required',
+            //'user_id' => auth()->id()
 
-        );
+        ]);
 
         //Save it to the database
 
         //$post->save();
-        Post::create(request(['title','body']));
+        /*
+         *
+         *
+        $post = new Post;
+        $post->title = request('title');
+        $post->body = request('body');
+        $post->user_id = auth()->id();
+
+        $post->save();
+         */
+
+        auth()->user()->publish(
+            new Post(request(['title','body']))  //to publish a post from a specific user
+        );
+
+      
+
+
 
         //Then redirect to home page
-
-
-
         return redirect('/');
     }
 
