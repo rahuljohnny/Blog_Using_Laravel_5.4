@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Repositories\Posts;
 
 use Illuminate\Http\Request;
 
@@ -24,14 +25,9 @@ class PostsController extends Controller
         return view('posts.create');
     }
 
-    public function index()
+    public function index(Posts $posts)
     {
-
-        $posts = Post::latest()//Will show the latest posts first
-
-        ->filter(request(['month','year']))
-
-        ->get();
+        $posts = $posts->all();
         /* moved to Post
         if($month = request('month'))
         {

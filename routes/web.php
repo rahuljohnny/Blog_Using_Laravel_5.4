@@ -1,5 +1,13 @@
 <?php
 
+
+
+//$stripe = App::make('App\Billing\Stripe'); THE SAME THING IS-
+//dd(resolve('App\Billing\Stripe'));
+
+
+
+
 Route::get('/welcome' , 'PostsController@wel');
 Route::get('/' , 'PostsController@index')->name('home');
 
