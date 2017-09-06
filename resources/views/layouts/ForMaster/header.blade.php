@@ -2,5 +2,13 @@
     <div class="container">
         <h1 class="blog-title">বাংলায় হউক বাংলার জয়গান</h1>
         <p class="lead blog-description">বাংলা ভাষাভাষিদের বাংলায় কিচির মিচির :) বুটস্ট্র্যাপের সৌজন্যে</p>
+
+        @if ($flash = session('message'))
+            <div id="flash-message" class="alert alert-success" role="alert">
+                {{$flash}}
+            </div>
+        @endif
+
+
     </div>
 </div>

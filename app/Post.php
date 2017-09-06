@@ -40,14 +40,13 @@ class Post extends Model
     public function scopeFilter($query, $filters)
     {
 
-        if ($month = $filters['month']){
-            $query->whereMonth('created_at',Carbon::parse($month)->month);
+        if ($month = $filters['month']) {
+            $query->whereMonth('created_at', Carbon::parse($month)->month);
         }
 
 
-        if($year = $filters['year'])
-        {
-            $query->whereYear('created_at',$year);
+        if ($year = $filters['year']) {
+            $query->whereYear('created_at', $year);
         }
     }
 
@@ -56,11 +55,13 @@ class Post extends Model
         return static::selectRaw('year(created_at) year,monthname(created_at)month,
                     
                     count(*) published')
-
-            ->groupBy('year','month')
-
+            ->groupBy('year', 'month')
             ->orderByRaw('min(created_at) DESC')
-
             ->get()->toArray();
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

@@ -26,6 +26,8 @@
 
 @include('layouts.nav')
 
+
+
 @include('layouts.ForMaster.header') <!-- This is diferent than the master -->
 
 

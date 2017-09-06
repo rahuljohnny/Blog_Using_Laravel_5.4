@@ -25,9 +25,13 @@ class PostsController extends Controller
         return view('posts.create');
     }
 
-    public function index(Posts $posts)
+    public function index()
     {
-        $posts = $posts->all();
+        //return session('message');//todo flash message
+        //$posts = $posts->all();
+        $posts = Post::latest()
+            ->filter(request(['month','year']))
+            ->get();
         /* moved to Post
         if($month = request('month'))
         {
@@ -107,8 +111,10 @@ class PostsController extends Controller
         );
 
       
-
-
+        session()->flash(
+            'message','Post is published!!'
+        );
+        //flash('Your messages are here!!');
 
         //Then redirect to home page
         return redirect('/');

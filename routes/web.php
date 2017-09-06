@@ -15,6 +15,7 @@ Route::get('/blade', function () {
     return view('child');
 });
 
+Route::get('/posts/tags/{tag}','TagsController@index');
 
 Route::get('/posts/{post}' , 'PostsController@show');
 
